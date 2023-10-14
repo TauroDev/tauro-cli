@@ -1,0 +1,32 @@
+{
+  "name": "tauro-cli",
+  "version": "1.0.6",
+  "description": "Cli de la empresa Tauro Dev para la optimización de la arquitectura de los proyectos ",
+  "main": "index.js",
+  "preferGlobal": true,
+  "bin": {
+    "tauro": "./src/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "CLI"
+  ],
+  "author": "Tauro Dev",
+  "license": "ISC",
+  "dependencies": {
+    "clear": "^0.1.0",
+    "commander": "^11.1.0",
+    "esm": "^3.2.25",
+    "execa": "^5.1.1",
+    "fs-extra": "^11.1.1",
+    "inquirer": "^8.2.6"
+  },
+  "files": [
+    "src/ProyectsBase/base-front-end",
+    "src/ProyectsBase/base-front-end/.git",
+    "src/ProyectsBase/base-back-end",
+    "src/ProyectsBase/base-back-end/.git"
+  ]
+}

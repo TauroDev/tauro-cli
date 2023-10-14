@@ -1,0 +1,12 @@
+{
+  "apps": [
+    "front-end-app",
+    "back-end-app"
+  ],
+  "isNewFront": true,
+  "isNewBack": true,
+  "repoFront": "https://github.com/Camilo1423/base-front-end.git",
+  "repoBack": "https://github.com/Camilo1423/base-front-end.git",
+  "versionApp": "1.0.6",
+  "descriptionApp": "Tauro Cli - es un cliente de templates para aplicaciones React js basadas en arquitecturas escalativas y modulares"
+}
