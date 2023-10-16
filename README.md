@@ -74,7 +74,7 @@ $ Qué tipo de aplicación vas a crear?
       Vanilla js (En Desarrollo)
 ```
 
-Una vez seleccionado el framework empezará a descargar los templates del repositorio <a href="https://github.com/TauroDev/base-front-end.git" target="blank"></a> TauroDev/base-front-app o si es back (por el momento no disponible aun) TauroDev/base-back-app
+Una vez seleccionado el framework empezará a descargar los templates del repositorio <a href="https://github.com/TauroDev/base-front-end.git" target="blank">TauroDev/base-front-app</a> o si es back (por el momento no disponible aun) TauroDev/base-back-app
 
 Una vez descargue los templates nos monstrara las versiones de disponibles de las arquitecturas.
 
