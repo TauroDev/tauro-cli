@@ -1,7 +1,7 @@
 const { program } = require("commander");
 const { prompt } = require("inquirer");
-const {enruting} = require("../Controllers/EnRuting.ctrl")
-const Config = require("../Helpers/Config.json")
+const { enruting, startRoutes } = require("../Controllers");
+const Config = require("../Helpers/Config.json");
 const clear = require("clear");
 
 const ConfigAnswer = [
@@ -14,7 +14,11 @@ const ConfigAnswer = [
 ];
 
 program
-  .version(`Version App: ${Config.versionApp}`, '-v, --version', Config.descriptionApp)
+  .version(
+    `Version App: ${Config.versionApp}`,
+    "-v, --version",
+    Config.descriptionApp
+  )
   .description(
     "Tauro Cli: Administrador de arquitecturas de Front y back basadas en node js y react"
   );
@@ -26,15 +30,25 @@ program
   .action(async () => {
     clear();
     const answer = await prompt(ConfigAnswer);
-    enruting(answer)
+    enruting(answer);
   });
 
 program
   .command("version")
   .alias("v")
-  .description("Tauro Cli: Administrador de arquitecturas de Front y back basadas en node js y react")
+  .description(
+    "Tauro Cli: Administrador de arquitecturas de Front y back basadas en node js y react"
+  )
   .action(async () => {
-    console.log(`Version App: ${Config.versionApp}`)
+    console.log(`Version App: ${Config.versionApp}`);
+  });
+
+program
+  .command("route")
+  .alias("r")
+  .description("Agregar nueva ruta al proyecto")
+  .action(async () => {
+    await startRoutes();
   });
 
 program.parse(process.argv);

@@ -27,8 +27,7 @@ const startFront = async () => {
   clear();
   const answer = await prompt(selecteFramework);
   const parseData = answer.framework.replace(/\s/g, "").toLowerCase()
-  const replaceDev = parseData.replace("(endesarrollo)", '');
-  const execAction = ConfigFramewoks[replaceDev]
+  const execAction = ConfigFramewoks[parseData.replace("(endesarrollo)", '')]
   execAction()
 }
 

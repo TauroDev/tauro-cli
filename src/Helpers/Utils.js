@@ -22,20 +22,19 @@ const typeExtension = {
 const urlRepos = {
   front: Config.repoFront,
   back: Config.repoBack,
-}
+};
 
 const updateRepo = async (typeApp) => {
-  const route = path.join(__dirname, `../ProyectsBase/${typeDepartament[typeApp]}`);
+  const route = path.join(
+    __dirname,
+    `../ProyectsBase/${typeDepartament[typeApp]}`
+  );
   const spinner = ora({
     text: chalk.yellowBright(`Actualizando templates...`),
     spinner: cliSpinners.dots8,
   }).start();
   try {
-    await execa(
-      "git",
-      ["reset", "--hard"],
-      { cwd: route }
-    );
+    await execa("git", ["reset", "--hard"], { cwd: route });
     const { stdout } = await execa(
       "git",
       ["pull", "origin", "main", "--rebase"],
@@ -137,13 +136,15 @@ const createDirectory = async (name, typeApp) => {
 
 const gitInitCommand = async (typeApp) => {
   const spinner = ora({
-    text: chalk.yellowBright(`Descargando el templates: ${urlRepos[typeApp]}...`),
+    text: chalk.yellowBright(
+      `Descargando el templates: ${urlRepos[typeApp]}...`
+    ),
     spinner: cliSpinners.dots8,
   }).start();
   try {
     const tmpConfig = Config;
     const route = path.join(__dirname, `../ProyectsBase`);
-    await fsExtra.removeSync(`${route}/${typeDepartament[typeApp]}`)
+    await fsExtra.removeSync(`${route}/${typeDepartament[typeApp]}`);
     const { stdout } = await execa("git", ["clone", `${urlRepos[typeApp]}`], {
       cwd: route,
     });
@@ -152,7 +153,9 @@ const gitInitCommand = async (typeApp) => {
     fsExtra.writeFileSync(routeConfig, JSON.stringify(tmpConfig, null, 2));
     spinner.succeed(chalk.green("Templates descargados correctamente"));
   } catch (error) {
-    spinner.fail(chalk.red(`Error al descargar los templates: ${urlRepos[typeApp]} :(`));
+    spinner.fail(
+      chalk.red(`Error al descargar los templates: ${urlRepos[typeApp]} :(`)
+    );
   }
 };
 
@@ -172,11 +175,24 @@ const chargeVersion = (route) => {
           elemento !== ".git" &&
           elemento !== ".gitignore"
       );
-    return versionsApp
+    return versionsApp;
   } catch (error) {
-    return []
+    return [];
   }
-}
+};
+
+/**
+ * Leer los archivos de una carpeta
+ * @param route {string} - Ruta del folder a leer
+ * @returns {string[]} Un array con las versiones, por ejemplo: ['src', 'index.js'...]
+ */
+const chargeItems = (route) => {
+  try {
+    return fsExtra.readdirSync(route);;
+  } catch (error) {
+    return [];
+  }
+};
 
 module.exports = {
   updateRepo,
@@ -186,5 +202,6 @@ module.exports = {
   printFinalMsg,
   createDirectory,
   gitInitCommand,
-  chargeVersion
+  chargeVersion,
+  chargeItems
 };
