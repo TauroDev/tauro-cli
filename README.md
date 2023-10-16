@@ -9,10 +9,10 @@
 
 <p align="center">Una interfaz de línea de comandos (@tauro/cli) progresivo para crear aplicaciones del lado del servidor y del lado del cliente eficientes y escalables.</p>
 <p align="center">
-<a href="#"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/yqz68tqgqm2covvkh3a1.svg" alt="NPM Version" /></a>
+<a href="#"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697423526/dtsh0kckzf7vbh7cop0q.svg" alt="NPM Version" /></a>
 <a href="#"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/datkjlatwox4ksfmltmn.svg" alt="Package License" /></a>
-<a href="https://discord.gg/ZVGrnH56"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/soyh1lyi3md2vl3dxqqt.svg" alt="NPM Downloads" /></a>
-<a href="https://github.com/TauroDev/tauro-cli"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/gbuac3yckgtudgausvfh.svg" alt="Colaborative repo" /></a>
+<a href="https://discord.gg/ZVGrnH56" target="blank"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/soyh1lyi3md2vl3dxqqt.svg" alt="NPM Downloads" /></a>
+<a href="https://github.com/TauroDev/tauro-cli" target="blank"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/gbuac3yckgtudgausvfh.svg" alt="Colaborative repo" /></a>
 </p>
 
 # @Tauro/cli - Herramienta para Desarrollo de Aplicaciones Frontend y Backend
@@ -61,7 +61,44 @@ $ tauro start
 Iniciará el cli mostrandonos los siguientes valores
 
 ```
-$ Que tipo de aplicación vas a crear?
+$ Qué tipo de aplicación vas a crear?
     > front-end-app
       back-end-app
 ```
+
+```
+$ Qué tipo de aplicación vas a crear?
+    > React js
+      Next js (En Desarrollo)
+      Vue js (En Desarrollo)
+      Vanilla js (En Desarrollo)
+```
+
+Una vez seleccionado el framework empezará a descargar los templates del repositorio <a href="https://github.com/TauroDev/base-front-end.git" target="blank"></a> TauroDev/base-front-app o si es back (por el momento no disponible aun) TauroDev/base-back-app
+
+Una vez descargue los templates nos monstrara las versiones de disponibles de las arquitecturas.
+
+Nota: Falta la optimización y explicación de que contiene cada versión estamos trabajando en ello,
+
+```
+$ Qué tipo de versión desea usar?
+    > v1
+      v2
+      v3
+      v4
+```
+
+Una vez selecciones la version te pedira el nombre del proyecto,
+
+```
+$ Ingrese nombre del proyecto (tauro-app): 
+```
+
+Este nombre se insertará automaticamente en el package.json de la app
+
+
+## Futuras Features
+
+- Vas a poder seleccionar si quieres utilizar frameworks css como: Bootstrap y tailwind css
+- Vas a poder seleccionar si quieres trabajar con css custom o con pre procesadores
+- Agregaremos soporte para Next js y Vanilla js
