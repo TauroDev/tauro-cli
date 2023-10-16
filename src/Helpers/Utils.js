@@ -4,16 +4,48 @@ const path = require("path");
 const fsExtra = require("fs-extra");
 const clear = require("clear");
 const Config = require("../Helpers/Config.json");
+const ora = require("ora");
+const cliSpinners = require("cli-spinners");
+const chalk = require("chalk");
 
 const routeConfig = path.join(__dirname, "../Helpers/Config.json");
+const typeDepartament = {
+  front: "base-front-end",
+  back: "base-back-end",
+};
 
-const updateRepo = async (path) => {
-  const { stdout } = await execa(
-    "git",
-    ["pull", "origin", "main", "--rebase"],
-    { cwd: path }
-  );
-  console.log(stdout);
+const typeExtension = {
+  front: "front",
+  back: "back",
+};
+
+const urlRepos = {
+  front: Config.repoFront,
+  back: Config.repoBack,
+}
+
+const updateRepo = async (typeApp) => {
+  const route = path.join(__dirname, `../ProyectsBase/${typeDepartament[typeApp]}`);
+  const spinner = ora({
+    text: chalk.yellowBright(`Actualizando templates...`),
+    spinner: cliSpinners.dots8,
+  }).start();
+  try {
+    await execa(
+      "git",
+      ["reset", "--hard"],
+      { cwd: route }
+    );
+    const { stdout } = await execa(
+      "git",
+      ["pull", "origin", "main", "--rebase"],
+      { cwd: route }
+    );
+    console.log(stdout);
+    spinner.succeed(chalk.green("Templates actualizados correctamente"));
+  } catch (error) {
+    spinner.fail(chalk.red(`Error al actualizar los templates :(`));
+  }
 };
 
 const copiarData = (origen, destino) => {
@@ -51,25 +83,16 @@ const restarJson = async (route) => {
   fsExtra.writeFileSync(route, JSON.stringify(dataPackage, null, 2));
 };
 
-const typeDepartament = {
-  front: "base-front-end",
-  back: "base-back-end",
-};
-
-const typeExtension = {
-  front: "front",
-  back: "back",
-};
-
 /**
  * Actualización del nombre del package json
  * @param answer {object} - Debe recibir dos valores {versionApp: "(versión del template)", nameApp: "(Nombre del proyecto"}
  * @param typeProject  {string} - Es el tipo del proyecto, si es front o back, este string debe ser "front" o "back"
+ * @param base  {string} - La base del proyecto es el tipo de framework que seleccionó el usuario
  */
-const modifyJson = async (answer, typeProject) => {
+const modifyJson = async (answer, typeProject, base) => {
   const route = path.join(
     __dirname,
-    `../ProyectsBase/${typeDepartament[typeProject]}`
+    `../ProyectsBase/${typeDepartament[typeProject]}/${base}`
   );
   const pathProject = path.join(route, answer.versionApp);
   const pathPackage = path.join(route, `${answer.versionApp}/package.json`);
@@ -112,16 +135,48 @@ const createDirectory = async (name, typeApp) => {
   console.log(stdout);
 };
 
-const gitInitCommand = async () => {
-  const tmpConfig = Config;
-  const route = path.join(__dirname, `../ProyectsBase`);
-  const { stdout } = await execa("git", ["clone", `${Config.repoFront}`], {
-    cwd: route,
-  });
-  console.log(stdout);
-  tmpConfig.isNewFront = false;
-  fsExtra.writeFileSync(routeConfig, JSON.stringify(tmpConfig, null, 2));
+const gitInitCommand = async (typeApp) => {
+  const spinner = ora({
+    text: chalk.yellowBright(`Descargando el templates: ${urlRepos[typeApp]}...`),
+    spinner: cliSpinners.dots8,
+  }).start();
+  try {
+    const tmpConfig = Config;
+    const route = path.join(__dirname, `../ProyectsBase`);
+    await fsExtra.removeSync(`${route}/${typeDepartament[typeApp]}`)
+    const { stdout } = await execa("git", ["clone", `${urlRepos[typeApp]}`], {
+      cwd: route,
+    });
+    console.log(stdout);
+    tmpConfig.isNewFront = false;
+    fsExtra.writeFileSync(routeConfig, JSON.stringify(tmpConfig, null, 2));
+    spinner.succeed(chalk.green("Templates descargados correctamente"));
+  } catch (error) {
+    spinner.fail(chalk.red(`Error al descargar los templates: ${urlRepos[typeApp]} :(`));
+  }
 };
+
+/**
+ * Leer las versiones de los templates
+ * @param route {string} - Ruta del template a leer
+ * @returns {string[]} Un array con las versiones, por ejemplo: ['v1', 'v2', 'v3', 'v4']
+ */
+const chargeVersion = (route) => {
+  try {
+    const versionsApp = fsExtra
+      .readdirSync(route)
+      .filter(
+        (elemento) =>
+          elemento !== ".DS_Store" &&
+          elemento !== "README.md" &&
+          elemento !== ".git" &&
+          elemento !== ".gitignore"
+      );
+    return versionsApp
+  } catch (error) {
+    return []
+  }
+}
 
 module.exports = {
   updateRepo,
@@ -131,4 +186,5 @@ module.exports = {
   printFinalMsg,
   createDirectory,
   gitInitCommand,
+  chargeVersion
 };
