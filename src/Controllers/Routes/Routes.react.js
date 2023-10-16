@@ -1,5 +1,7 @@
 const prettier = require("prettier");
-const { chargeItems } = require("../../Helpers/Utils");
+const { chargeItems, capitalizarString } = require("../../Helpers/Utils");
+const Path = require("path")
+const fs = require("fs");
 
 const newRouteAdd = async (pathRoute, routeAdd) => {
   const contentFile = fs.readFileSync(pathRoute, "utf8");
@@ -27,27 +29,25 @@ const newRouteAdd = async (pathRoute, routeAdd) => {
   });
 };
 
-const validateExistFolder = (path) => {
-  const items = chargeItems(path);
-  const lowerItems = items.map((item) => item.toLocaleLowerCase());
-  const existFiles = {
-    routesOne: false,
-    src: false,
-    routesTwo: false,
-    intoRoutes: false
-  };
-  if (lowerItems.includes["routes"]) {
-    existFiles[routesOne] = true
+const validatePath = (pathBase, validateFolder) => {
+  if (fs.existsSync(Path.join(pathBase, validateFolder.toLowerCase()))) {
+    return Path.join(pathBase, validateFolder.toLowerCase())
   }
+  return false;
+}
 
-  if (!lowerItems.includes["src"]) {
-    console.log("ESTRUCTURA DEL PROYECTO NO VALIDA");
-    return false;
+const validateExistFolderRoutes = (path, typeAccess) => {
+  const existRoutes = validatePath(path, `src/routes/${typeAccess}`)
+  if(!existRoutes) {
+    console.log('ESTRUCTURA DE PROYECTO NO VALIDA')
+    return false
   }
+  return existRoutes
 };
 
 const entryPoint = () => {
-  validateExistFolder(process.cwd());
+  const isValidPath = validateExistFolderRoutes(process.cwd(), "private");
+  console.log(isValidPath)
 };
 
 module.exports = entryPoint;

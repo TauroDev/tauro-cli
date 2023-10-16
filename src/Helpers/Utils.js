@@ -194,6 +194,17 @@ const chargeItems = (route) => {
   }
 };
 
+/**
+ * Capitalizar un string
+ * @param route {string} - Palabra a capitalizar
+ */
+const capitalizarString =  (string) => {
+  if (string.length === 0) {
+      return string;
+  }
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
+
 module.exports = {
   updateRepo,
   copiarData,
@@ -203,5 +214,6 @@ module.exports = {
   createDirectory,
   gitInitCommand,
   chargeVersion,
-  chargeItems
+  chargeItems,
+  capitalizarString
 };
