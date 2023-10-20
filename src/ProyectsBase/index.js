@@ -1,1 +1,0 @@
-console.log("With <3 by Tauro Dev");

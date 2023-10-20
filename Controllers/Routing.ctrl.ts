@@ -1,7 +1,9 @@
-const clear = require("clear");
-const { prompt } = require("inquirer");
-const Config = require("../Helpers/Config.json");
-const { EntryReact } = require("./Routes");
+import clear from "clear";
+import inquirer from "inquirer";
+import Config from "../Helpers/Config.json";
+import { EntryReact } from "./Routes";
+
+const { prompt } = inquirer;
 
 const Flows = [
   {
@@ -12,12 +14,12 @@ const Flows = [
   },
 ];
 
-const ConfigFramewoks = {
+const ConfigFramewoks: any = {
   reactjs: EntryReact,
   nextjs: () => console.log("En desarrollo"),
   vanillajs: () => console.log("En desarrollo"),
-  vuejs: () => console.log("En desarrollo")
-}
+  vuejs: () => console.log("En desarrollo"),
+};
 
 const actionFlows = async () => {
   const answer = await prompt(Flows);
@@ -25,10 +27,9 @@ const actionFlows = async () => {
   return parseData.replace("(endesarrollo)", "");
 };
 
-const startRoutes = async () => {
+export const InitAddRoute = async () => {
   clear();
   const execAction = ConfigFramewoks[await actionFlows()];
-  execAction()
+  execAction();
 };
 
-module.exports = { startRoutes };

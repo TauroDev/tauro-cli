@@ -1,5 +1,5 @@
 const Config = require('../Helpers/Config.json')
-const PackageJson = require('../../package.json')
+const PackageJson = require('../package.json')
 const path = require('path')
 const fsExtra = require("fs-extra");
 
@@ -9,7 +9,7 @@ const pathProject = path.join(__dirname, '../ProyectsBase')
 const readme = path.join(__dirname, '../../README.md')
 const tmpVersion = Config.versionApp
 
-function incrementVersion(version) {
+function incrementVersion(version: string) {
     const parts = version.split('.').map(Number);
 
     if (parts.length !== 3) {

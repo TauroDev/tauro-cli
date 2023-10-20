@@ -1,15 +1,12 @@
-const {startBack} = require("./Back.ctrl")
+import { startBack } from "./Back.ctrl"
 const {startFront} = require("./Front.ctrl")
 
-const HashMapApp = {
+const HashMapApp: any = {
     "front-end-app": startFront,
     "back-end-app": startBack
 }
 
-const enruting = (select) => {
+export const InitProject = (select: {typeApp: string}) => {
     const GoFlow = HashMapApp[select.typeApp]
     GoFlow()
 }
-
-
-module.exports = {enruting}

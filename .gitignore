@@ -4,6 +4,11 @@
 ### ExpressionEngine ###
 .DS_Store
 
+*.js
+
+ProyectsBase/base-front-end/
+ProyectsBase/base-back-end/
+
 # Images
 images/avatars/
 images/captchas/

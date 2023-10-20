@@ -1,8 +1,10 @@
-const { program } = require("commander");
-const { prompt } = require("inquirer");
-const { enruting, startRoutes } = require("../Controllers");
-const Config = require("../Helpers/Config.json");
-const clear = require("clear");
+import { program } from "commander";
+import inquirer from "inquirer";
+import { InitAddRoute, InitProject } from "../Controllers";
+import Config from "../Helpers/Config.json";
+import clear from "clear";
+
+const { prompt } = inquirer
 
 const ConfigAnswer = [
   {
@@ -30,7 +32,7 @@ program
   .action(async () => {
     clear();
     const answer = await prompt(ConfigAnswer);
-    enruting(answer);
+    InitProject(answer);
   });
 
 program
@@ -48,7 +50,9 @@ program
   .alias("r")
   .description("Agregar nueva ruta al proyecto")
   .action(async () => {
-    await startRoutes();
+    await InitAddRoute();
   });
 
 program.parse(process.argv);
+
+// comando para permisos chmod -R 777 .

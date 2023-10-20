@@ -1,10 +1,12 @@
-const clear = require("clear");
-const path = require("path");
-const { prompt } = require("inquirer");
+import clear from "clear";
+import path from "path";
+import inquirer from "inquirer";
 const { NextCtrl, ReactCtrl, VanillaCtrl, VueCtrl } = require("./Front");
-const Config = require("../Helpers/Config.json");
+import Config from "../Helpers/Config.json";
 
-const ConfigFramewoks = {
+const {prompt} = inquirer
+
+const ConfigFramewoks: any = {
   reactjs: ReactCtrl,
   nextjs: NextCtrl,
   vanillajs: VanillaCtrl,
@@ -14,7 +16,7 @@ const ConfigFramewoks = {
 const route = path.join(__dirname, "../ProyectsBase/base-front-end");
 
 
-const selecteFramework = [
+const selecteFramework: any = [
   {
     type: "list",
     name: "framework",
