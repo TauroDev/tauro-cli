@@ -6,8 +6,7 @@
 
 *.js
 
-ProyectsBase/base-front-end/
-ProyectsBase/base-back-end/
+ProyectsBase/
 
 # Images
 images/avatars/
