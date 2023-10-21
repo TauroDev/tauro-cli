@@ -14,7 +14,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsc && node ./bin/tauro.js",
     "clean": "ts-node ./lib/Runners/clean.runner.ts",
-    "deploy": "tsc && node ./lib/Runners/deploy.runner.js && npm publish && npm run clean"
+    "deploy": "tsc && node ./lib/Runners/deploy.runner.js && npm publish && npm run clean",
+    "try": "ts-node ./lib/Runners/deploy.runner.ts"
   },
   "keywords": [
     "CLI",
