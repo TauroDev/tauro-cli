@@ -1,12 +1,14 @@
 import chalk from "chalk";
-import { StartCommand } from "./start.command";
 import { Command } from "commander";
 import { ERROR_PREFIX } from "../lib/Ui";
-import { StartAction } from "../Actions";
+import { StartAction, RoutesAction } from "../Actions";
+import { StartCommand } from "./start.command";
+import { RoutesCommand } from "./routes.command";
 
 export class CommandLoader {
   public static async load(program: Command): Promise<void> {
     new StartCommand(new StartAction()).load(program);
+    new RoutesCommand(new RoutesAction()).load(program);
 
     this.handleInvalidCommand(program);
   }

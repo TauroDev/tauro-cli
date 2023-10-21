@@ -9,7 +9,17 @@
     "Vue js (En Desarrollo)",
     "Vanilla js (En Desarrollo)"
   ],
-  "isNewFront": false,
+  "frontFlags": [
+    "r",
+    "n",
+    "j",
+    "v"
+  ],
+  "backFlags": [
+    "e",
+    "n"
+  ],
+  "isNewFront": true,
   "isNewBack": true,
   "repoFront": "https://github.com/TauroDev/base-front-end.git",
   "repoBack": "https://github.com/Camilo1423/base-front-end.git",

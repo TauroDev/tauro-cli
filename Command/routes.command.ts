@@ -1,21 +1,21 @@
 import { Command } from "commander";
 import { AbstractCommand } from "./abstract.command";
+import inquirer from "inquirer";
 import { InputCommand } from "./command.input";
 import { Config } from "../lib/Configurations";
-import inquirer from "inquirer";
 import { ERROR_PREFIX } from "../lib/Ui";
 import chalk from "chalk";
 import clear from "clear";
 
-export class StartCommand extends AbstractCommand {
-  private ConfigAnswer: any = [
-    {
-      type: "list",
-      name: "typeApp",
-      message: "Qué tipo de aplicación vas a crear?",
-      choices: Config.apps,
-    },
-  ];
+export class RoutesCommand extends AbstractCommand {
+    private ConfigAnswer: any = [
+        {
+          type: "list",
+          name: "typeApp",
+          message: "¿En qué área te gustaría añadir una nueva ruta?",
+          choices: Config.apps,
+        },
+      ];
   private selected = inquirer.prompt;
   private HashMapApp: any = {
     front: "front-end-app",
@@ -23,11 +23,11 @@ export class StartCommand extends AbstractCommand {
   };
   public load(program: Command): void {
     program
-      .command("start")
-      .alias("s")
-      .option("-f, --front <path>", "Start directly with a front end framework")
-      .option("-b, --back <path>", "Start directly with a back end framework")
-      .description("Start application with a Tauro Cli")
+      .command("route")
+      .alias("r")
+      .option("-f, --front <path>", "Start directly with a front end route")
+      .option("-b, --back <path>", "Start directly with a back end route")
+      .description("Start application add route at project")
       .action(async (options) => {
         clear();
         let config: InputCommand = { name: "", value: "selected" };
@@ -74,7 +74,7 @@ export class StartCommand extends AbstractCommand {
       config.options
     );
     console.log(
-      `See ${chalk.red("https://cli.taurodev.com/front#list-flags")} for a list flags of available commands.\n`
+      `See ${chalk.red("https://cli.taurodev.com/front#list-routes")} for a list flags of available commands.\n`
     );
     process.exit(1);
   }

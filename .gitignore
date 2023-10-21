@@ -7,7 +7,7 @@
 *.js
 *.d.ts
 
-Template/
+Templates/
 
 # Images
 images/avatars/

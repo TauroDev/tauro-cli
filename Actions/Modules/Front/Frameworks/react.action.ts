@@ -27,7 +27,7 @@ export class ReactAction extends AbstractAction {
         await this.git.gitInitCommand(this.typeApp);
       }
       await this.git.updateRepo(this.typeApp);
-      // clear();;
+      clear();
       const { pathProject, data, pathPackage } = await this.generatedVersions();
       await this.dir.createDirectory(data.nameApp, this.typeApp);
       const routeFinal = path.join(

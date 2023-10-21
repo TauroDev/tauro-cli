@@ -21,11 +21,25 @@ export class FrontAction extends AbstractAction {
     vanillajs: VanillaAction,
     vuejs: VueAction,
   };
+
+  private minNameFramework: any = {
+    r: "reactjs",
+    n: "nextjs",
+    j: "vanillajs",
+    v: "vuejs"
+  }
+
   public async handle(args: InputCommand): Promise<void> {
-    // clear();;
-    const answer = await this.selected(this.selecteFramework);
-    const parseData = answer.framework.replace(/\s/g, "").toLowerCase()
-    const execAction = this.ConfigFramewoks[parseData.replace("(endesarrollo)", '')]
+    clear();
+    let execAction;
+    if(args.value == "selected") {
+      const answer = await this.selected(this.selecteFramework);
+      const parseData = answer.framework.replace(/\s/g, "").toLowerCase()
+      execAction = this.ConfigFramewoks[parseData.replace("(endesarrollo)", '')]
+    } else {
+      const framework = this.minNameFramework[args.options]
+      execAction = this.ConfigFramewoks[framework];
+    }
     new execAction().handle();
   }
 }
