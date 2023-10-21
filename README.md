@@ -9,11 +9,17 @@
 
 <p align="center">Una interfaz de línea de comandos (@tauro/cli) progresivo para crear aplicaciones del lado del servidor y del lado del cliente eficientes y escalables.</p>
 <p align="center">
-<a href="#"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697871838/aqvd0axxdg8tu0djckle.svg" alt="NPM Version" /></a>
+<!-- <a href="#"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697871838/aqvd0axxdg8tu0djckle.svg" alt="NPM Version" /></a>
 <a href="#"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/datkjlatwox4ksfmltmn.svg" alt="Package License" /></a>
 <a href="https://discord.gg/ZVGrnH56" target="blank"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/soyh1lyi3md2vl3dxqqt.svg" alt="NPM Downloads" /></a>
 <a href="https://github.com/TauroDev/tauro-cli" target="blank"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/gbuac3yckgtudgausvfh.svg" alt="Colaborative repo" /></a>
-</p>
+</p> -->
+
+### Nota: Paquete de desarrollo, puede presentar bugs como fallos en la instacia de los template
+
+# @Tauro/cli - Herramienta para Desarrollo de Aplicaciones Frontend y Backend
+
+Tauro CLI es una potente herramienta de línea de comandos diseñada para facilitar el desarrollo de aplicaciones front-end y back-end de alta calidad. Este conjunto de herramientas avanzadas está centrado en permitir la creación de aplicaciones de React.js en el lado del cliente y aplicaciones basadas en Express y TypeScript en el lado del servidor, utilizando enfoques de arquitectura modular y escalable.
 
 # Issues fixed
 
@@ -29,11 +35,6 @@ Nota: Todo nuestro desarrollo es transparente para el consumidor, si tienes duda
 ```
 $ tauro start -f [framework de preferencia <flag>]
 ```
-
-
-# @Tauro/cli - Herramienta para Desarrollo de Aplicaciones Frontend y Backend
-
-Tauro CLI es una potente herramienta de línea de comandos diseñada para facilitar el desarrollo de aplicaciones front-end y back-end de alta calidad. Este conjunto de herramientas avanzadas está centrado en permitir la creación de aplicaciones de React.js en el lado del cliente y aplicaciones basadas en Express y TypeScript en el lado del servidor, utilizando enfoques de arquitectura modular y escalable.
 
 ## Características Destacadas:
 
@@ -51,8 +52,16 @@ Tauro CLI es una potente herramienta de línea de comandos diseñada para facili
 
 ## Instalación
 
+### Windows
+
 ```
 $ npm install -g @tauro/cli
+```
+
+### MacOs/Linux
+
+```
+$ sudo npm install -g @tauro/cli
 ```
 
 ## Comando base

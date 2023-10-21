@@ -3,6 +3,8 @@ import { typeExtension } from "../Configurations";
 import fs from "fs";
 import path from "path";
 import fsExtra from "fs-extra";
+import { ERROR_PREFIX } from "../Ui";
+import chalk from "chalk";
 
 export class DirectoryRunner {
   /**
@@ -11,12 +13,17 @@ export class DirectoryRunner {
    * @param typeApp {string} - Es el tipo del proyecto, si es front o back, este string debe ser "front" o "back"
    */
   public async createDirectory(name: string, typeApp: string) {
-    const { stdout } = await execa(
-      "mkdir",
-      [`${name.toLowerCase()}-${typeExtension[typeApp]}`],
-      { cwd: process.cwd() }
-    );
-    console.log(stdout);
+    const nameDir = `${name.toLowerCase()}-${typeExtension[typeApp]}`
+    try {
+      const { stdout } = await execa(
+        "mkdir",
+        [nameDir],
+        { cwd: process.cwd() }
+      );
+      console.log(stdout);
+    } catch (error) {
+      this.handleError("The directory already exists, try with another name.", nameDir)
+    }
   }
 
   public async copyData(origen: string, destino: string) {
@@ -100,5 +107,13 @@ export class DirectoryRunner {
     } catch (error) {
       return [];
     }
+  }
+
+  private handleError(text: string, entry: string): void {
+    console.error(
+      `\n${ERROR_PREFIX} ${text} ${chalk.red("%s")}`,
+      entry
+    );
+    process.exit(1);
   }
 }

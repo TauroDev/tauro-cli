@@ -1,6 +1,6 @@
 {
-  "name": "@tauro/cli",
-  "version": "1.1.3",
+  "name": "tauro-cli-dev",
+  "version": "1.0.3",
   "description": "Cli de la empresa Tauro Dev para la optimización de la arquitectura de los proyectos ",
   "main": "index.js",
   "preferGlobal": true,
@@ -8,13 +8,13 @@
     "node": ">= 16"
   },
   "bin": {
-    "tau": "./bin/tauro.js"
+    "devtest": "./bin/tauro.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "",
+    "dev": "tsc && node ./bin/tauro.js",
     "clean": "ts-node ./lib/Runners/clean.runner.ts",
-    "deploy": "tsc && node ./lib/Runners/deploy.runner.js"
+    "deploy": "tsc && node ./lib/Runners/deploy.runner.js && npm publish && npm run clean"
   },
   "keywords": [
     "CLI",

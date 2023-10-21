@@ -56,7 +56,6 @@ export class GitRunner {
 
   public async initMacOs(typeApp: string, route: string) {
     try {
-      await this.macPermissions.GetAdminPermissions();
       const tmpConfig = Config;
       await this.shell.executeExecaSync("rm", [
         "-r",
@@ -85,6 +84,7 @@ export class GitRunner {
   };
 
   public async gitInitCommand(typeApp: string) {
+    await this.macPermissions.GetAdminPermissions();
     const spinner = ora({
       text: chalk.yellowBright(
         `Descargando el templates: ${urlRepos[typeApp]}...`
