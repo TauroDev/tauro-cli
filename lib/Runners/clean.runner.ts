@@ -1,6 +1,16 @@
 import path from 'path';
 import fs from 'fs';
 
+const getExtendedExtname = (filePath: string): string => {
+    // Extraer el nombre del archivo de la ruta completa
+    const filename = path.basename(filePath);
+    
+    // Buscar la extensión a partir de dos posiciones antes del punto
+    const match = filename.match(/.{2}\.\w+$/);
+    
+    return match ? match[0] : '';
+};
+
 const deleteFilesFromDir = (
     startPath: string,
     fileExtensionArray: string[],
@@ -15,8 +25,6 @@ const deleteFilesFromDir = (
 
     for (let i = 0; i < files.length; i++) {
         const filename = path.join(startPath, files[i]);
-        console.log(fileExtensionArray.indexOf(path.extname(filename)) !== -1)
-        console.log(path.extname(filename))
 
         // Ignorar si la ruta está en la lista de rutas ignoradas
         if (ignorePaths.includes(filename)) {
@@ -27,10 +35,15 @@ const deleteFilesFromDir = (
         const stat = fs.lstatSync(filename);
 
         if (stat.isDirectory()) {
-            deleteFilesFromDir(filename, fileExtensionArray, ignorePaths); // Recursividad
+            deleteFilesFromDir(filename, fileExtensionArray, ignorePaths);
         } else if (path.extname(filename)) {
-            fs.unlinkSync(filename); // Eliminar archivo
-            console.log(`Eliminado: ${filename}`);
+            if(fileExtensionArray.indexOf(path.extname(filename)) !== -1) {
+                fs.unlinkSync(filename);
+                console.log(`Eliminado: ${filename}`);
+            } else if (fileExtensionArray.indexOf(getExtendedExtname(filename)) !== -1) {
+                fs.unlinkSync(filename);
+                console.log(`Eliminado: ${filename}`);
+            }
         }
     }
 };
@@ -40,5 +53,4 @@ const pathsToIgnore = [
     path.join(__dirname, '../../.git')
 ]
 
-// Ejecutar función para eliminar archivos .js y .d.ts en el directorio actual y subdirectorios
 deleteFilesFromDir(path.join(__dirname, "../../"), ['.js', '.d.ts'], pathsToIgnore);
