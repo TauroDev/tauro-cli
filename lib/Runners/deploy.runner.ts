@@ -4,10 +4,9 @@ import PackageJson from "../../package.json"
 import path from "path";
 import fsExtra from "fs-extra"
 
-const routeConfig = path.join(__dirname, '../Helpers/Config.json')
+const routeConfig = path.join(__dirname, '../Configurations/params.config.json')
 const routePackage = path.join(__dirname, '../../package.json')
-const pathProject = path.join(__dirname, '../Templates')
-const readme = path.join(__dirname, '../../README.md')
+const pathProject = path.join(__dirname, '../../Templates')
 const tmpVersion = Config.versionApp
 
 const tmpConfig = Config
