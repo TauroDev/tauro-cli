@@ -9,7 +9,7 @@
 
 <p align="center">Una interfaz de línea de comandos (@tauro/cli) progresivo para crear aplicaciones del lado del servidor y del lado del cliente eficientes y escalables.</p>
 <p align="center">
-<a href="#"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697423526/dtsh0kckzf7vbh7cop0q.svg" alt="NPM Version" /></a>
+<a href="#"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697871589/v1d7jrn8fvv17wpudjax.svg" alt="NPM Version" /></a>
 <a href="#"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/datkjlatwox4ksfmltmn.svg" alt="Package License" /></a>
 <a href="https://discord.gg/ZVGrnH56" target="blank"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/soyh1lyi3md2vl3dxqqt.svg" alt="NPM Downloads" /></a>
 <a href="https://github.com/TauroDev/tauro-cli" target="blank"><img src="https://res.cloudinary.com/deo9hwbhx/image/upload/v1697418438/gbuac3yckgtudgausvfh.svg" alt="Colaborative repo" /></a>
