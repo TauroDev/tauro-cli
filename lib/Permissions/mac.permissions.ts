@@ -1,8 +1,16 @@
-import path from 'path';
-import { executeExecaSync } from "../../Helpers/Utils";
+import path from "path";
+import { ShellRunner } from "../Runners";
 
-
-export const GetAdminPermissions = async () => {
-    const originPath = path.join(__dirname, "../../")
-    await executeExecaSync("sudo", ["chmod", "-R", "777", originPath]);
+export class MacPermissions {
+    private shell: ShellRunner = new ShellRunner()
+  public async GetAdminPermissions() {
+    if (process.platform === "darwin") {
+      try {
+        const originPath = path.join(__dirname, "../../");
+        await this.shell.executeExecaSync("sudo", ["chmod", "-R", "777", originPath]);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  };
 }

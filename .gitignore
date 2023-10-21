@@ -5,8 +5,9 @@
 .DS_Store
 
 *.js
+*.d.ts
 
-ProyectsBase/
+Template/
 
 # Images
 images/avatars/

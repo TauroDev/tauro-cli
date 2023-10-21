@@ -28,7 +28,7 @@ const actionFlows = async () => {
 };
 
 export const InitAddRoute = async () => {
-  clear();
+  // clear();;
   const execAction = ConfigFramewoks[await actionFlows()];
   execAction();
 };

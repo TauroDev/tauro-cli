@@ -7,7 +7,6 @@ import clear from "clear";
 import Config from "../Helpers/Config.json";
 import ora from "ora";
 import cliSpinners from "cli-spinners";
-import { GetAdminPermissions } from "../lib/Permissions/mac.permissions";
 
 const routeConfig = path.join(__dirname, "../Helpers/Config.json");
 
@@ -29,7 +28,7 @@ const urlRepos: any = {
 const updateRepo = async (typeApp: string) => {
   const route = path.join(
     __dirname,
-    `../ProyectsBase/${typeDepartament[typeApp]}`
+    `../Template/${typeDepartament[typeApp]}`
   );
   const spinner = ora({
     text: chalk.yellowBright(`Actualizando templates...`),
@@ -91,10 +90,9 @@ const restarJson = async (route: string) => {
  * @param base  {string} - La base del proyecto es el tipo de framework que seleccionó el usuario
  */
 const modifyJson = async (answer: any, typeProject: string, base: string) => {
-  await GetAdminPermissions()
   const route = path.join(
     __dirname,
-    `../ProyectsBase/${typeDepartament[typeProject]}/${base}`
+    `../Template/${typeDepartament[typeProject]}/${base}`
   );
   const pathProject = path.join(route, answer.versionApp);
   const pathPackage = path.join(route, `${answer.versionApp}/package.json`);
@@ -109,7 +107,7 @@ const modifyJson = async (answer: any, typeProject: string, base: string) => {
  * @param name {string} - Recibe como argumento el nombre del proyecto
  */
 const printFinalMsg = (name: string) => {
-  clear();
+  // clear();;
   console.log("");
   console.log("Instrucciones de uso:");
   console.log("");
@@ -211,7 +209,7 @@ const gitInitCommand = async (typeApp: string) => {
     ),
     spinner: cliSpinners.dots8,
   }).start();
-  const route = path.join(__dirname, `../ProyectsBase`);
+  const route = path.join(__dirname, `../Template`);
   try {
     if (process.platform === "darwin") {
       await initMacOs(typeApp, route);

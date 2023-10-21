@@ -24,7 +24,7 @@ const baseApp = "react";
 //path templates base
 const routeFramework = path.join(
   __dirname,
-  `../../ProyectsBase/base-front-end/${baseApp}/`
+  `../../Template/base-front-end/${baseApp}/`
 );
 
 //functions access
@@ -62,7 +62,7 @@ export const ReactCtrl = async () => {
       await gitInitCommand(typeApp);
     }
     await updateRepo(typeApp);
-    clear();
+    // clear();;
     const { pathProject, data, pathPackage } = await generatedVersions();
     await createDirectory(data.nameApp, typeApp);
     const routeFinal = path.join(

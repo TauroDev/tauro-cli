@@ -29,10 +29,13 @@ program
   .command("start")
   .alias("s")
   .description("Inicializar proceso de creación de aplicación")
-  .action(async () => {
-    clear();
-    const answer = await prompt(ConfigAnswer);
-    InitProject(answer);
+  .option('-f, --front <path>', 'Expeficicar framework de front')
+  .option('-b, --back <path>', 'Expeficicar framework de back')
+  .action(async (options) => {
+    // // clear();;
+    // const answer = await prompt(ConfigAnswer);
+    // InitProject(answer);
+    console.log(options)
   });
 
 program

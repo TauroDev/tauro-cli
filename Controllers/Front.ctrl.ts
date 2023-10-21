@@ -13,8 +13,6 @@ const ConfigFramewoks: any = {
   vuejs: VueCtrl
 }
 
-const route = path.join(__dirname, "../ProyectsBase/base-front-end");
-
 
 const selecteFramework: any = [
   {
@@ -26,7 +24,7 @@ const selecteFramework: any = [
 ]
 
 const startFront = async () => {
-  clear();
+  // clear();;
   const answer = await prompt(selecteFramework);
   const parseData = answer.framework.replace(/\s/g, "").toLowerCase()
   const execAction = ConfigFramewoks[parseData.replace("(endesarrollo)", '')]

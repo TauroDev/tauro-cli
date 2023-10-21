@@ -9,7 +9,7 @@
     // "disableReferencedProjectLoad": true,             /* Reduce la cantidad de proyectos que TypeScript carga automáticamente. */
 
     /* Lenguaje y Entorno */
-    "target": "es2016",                                  /* Establece la versión del lenguaje JavaScript para el JavaScript emitido e incluye declaraciones de biblioteca compatibles. */
+    "target": "ES2021",                                  /* Establece la versión del lenguaje JavaScript para el JavaScript emitido e incluye declaraciones de biblioteca compatibles. */
     // "lib": [],                                        /* Especifica un conjunto de archivos de declaración de biblioteca empaquetados que describen el entorno de tiempo de ejecución objetivo. */
     // "jsx": "preserve",                                /* Especifica qué código JSX se genera. */
     // "experimentalDecorators": true,                   /* Habilita el soporte experimental para los decoradores experimentales heredados. */
@@ -47,7 +47,7 @@
     // "maxNodeModuleJsDepth": 1,                       /* Especifica la máxima profundidad de carpetas utilizada para revisar archivos JavaScript de 'node_modules'. Sólo aplicable con 'allowJs'. */
 
     /* Emitir */
-    // "declaration": true,                             /* Genera archivos .d.ts a partir de archivos TypeScript y JavaScript en tu proyecto. */
+    "declaration": true,                             /* Genera archivos .d.ts a partir de archivos TypeScript y JavaScript en tu proyecto. */
     // "declarationMap": true,                          /* Crea sourcemaps para archivos d.ts. */
     // "emitDeclarationOnly": true,                     /* Solo emite archivos d.ts y no archivos JavaScript. */
     // "sourceMap": true,                               /* Crea archivos de mapa de fuente para los archivos JavaScript emitidos. */
