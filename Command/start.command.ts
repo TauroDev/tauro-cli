@@ -34,7 +34,8 @@ export class StartCommand extends AbstractCommand {
         let isValid: boolean = true;
         if (Object.keys(options).length == 0) {
           const answer = await this.selected(this.ConfigAnswer);
-          config.name = answer.typeApp;
+          const parseData = answer.typeApp.replace(/\s/g, "").toLowerCase();
+          config.name = parseData.replace("(endesarrollo)", "");
         }
         if (options?.front) {
           config = this.captureData(options);

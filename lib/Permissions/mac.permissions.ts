@@ -12,7 +12,7 @@ export class MacPermissions {
       const commandError = `sudo chmod -R 777 ${originPath}`
       try {
         clear();
-        console.log("Enter the password to grant system interaction permissions to @tauro/cli: ")
+        console.log(chalk.yellow("Enter the password to grant system interaction permissions to @tauro/cli: "))
         await this.shell.executeExecaSync("sudo", ["chmod", "-R", "777", originPath]);
         clear();
       } catch (error) {

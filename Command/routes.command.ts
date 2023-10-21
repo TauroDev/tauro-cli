@@ -8,14 +8,14 @@ import chalk from "chalk";
 import clear from "clear";
 
 export class RoutesCommand extends AbstractCommand {
-    private ConfigAnswer: any = [
-        {
-          type: "list",
-          name: "typeApp",
-          message: "¿En qué área te gustaría añadir una nueva ruta?",
-          choices: Config.apps,
-        },
-      ];
+  private ConfigAnswer: any = [
+    {
+      type: "list",
+      name: "typeApp",
+      message: "¿En qué área te gustaría añadir una nueva ruta?",
+      choices: Config.apps,
+    },
+  ];
   private selected = inquirer.prompt;
   private HashMapApp: any = {
     front: "front-end-app",
@@ -34,7 +34,8 @@ export class RoutesCommand extends AbstractCommand {
         let isValid: boolean = true;
         if (Object.keys(options).length == 0) {
           const answer = await this.selected(this.ConfigAnswer);
-          config.name = answer.typeApp;
+          const parseData = answer.typeApp.replace(/\s/g, "").toLowerCase();
+          config.name = parseData.replace("(endesarrollo)", "");
         }
         if (options?.front) {
           config = this.captureData(options);
@@ -44,10 +45,10 @@ export class RoutesCommand extends AbstractCommand {
           config = this.captureData(options);
           isValid = this.validateArgs(config);
         }
-        if(isValid) {
+        if (isValid) {
           await this.action.handle(config);
         } else {
-          this.handleError(config)
+          this.handleError(config);
         }
       });
   }
@@ -74,7 +75,9 @@ export class RoutesCommand extends AbstractCommand {
       config.options
     );
     console.log(
-      `See ${chalk.red("https://cli.taurodev.com/front#list-routes")} for a list flags of available commands.\n`
+      `See ${chalk.red(
+        "https://cli.taurodev.com/front#list-routes"
+      )} for a list flags of available commands.\n`
     );
     process.exit(1);
   }
