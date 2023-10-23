@@ -19,13 +19,22 @@
     "e",
     "n"
   ],
+  "ConfigRoutes": {
+    "front": {
+      "react": {
+        "multi": "<Route path='/{nameRoute}/*' element={{component}} />",
+        "single": "<Route path='/{nameRoute}' element={{component}} />"
+      }
+    },
+    "back": {}
+  },
   "isNewFront": true,
   "isNewBack": true,
   "isProd": true,
   "repoFront": "https://github.com/TauroDev/base-front-end.git",
   "repoBack": "https://github.com/Camilo1423/base-front-end.git",
-  "versionApp": "1.0.3",
-  "versionDevPackage": "1.0.3",
+  "versionApp": "1.0.7",
+  "versionDevPackage": "1.0.7",
   "versionProdPackage": "1.1.3",
   "namePackageProd": "@tauro/cli",
   "namePackageDev": "tauro-cli-dev",

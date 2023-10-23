@@ -5,24 +5,28 @@ import path from "path";
 import fsExtra from "fs-extra";
 import { ERROR_PREFIX } from "../Ui";
 import chalk from "chalk";
+import inquirer from "inquirer";
+import clear from "clear";
 
 export class DirectoryRunner {
+  private selected = inquirer.prompt;
   /**
    * Creación de carpeta contenedora de proyecto
    * @param name {string} - Recibe como argumento el nombre del proyecto
    * @param typeApp {string} - Es el tipo del proyecto, si es front o back, este string debe ser "front" o "back"
    */
   public async createDirectory(name: string, typeApp: string) {
-    const nameDir = `${name.toLowerCase()}-${typeExtension[typeApp]}`
+    const nameDir = `${name.toLowerCase()}-${typeExtension[typeApp]}`;
     try {
-      const { stdout } = await execa(
-        "mkdir",
-        [nameDir],
-        { cwd: process.cwd() }
-      );
+      const { stdout } = await execa("mkdir", [nameDir], {
+        cwd: process.cwd(),
+      });
       console.log(stdout);
     } catch (error) {
-      this.handleError("The directory already exists, try with another name.", nameDir)
+      this.handleError(
+        "The directory already exists, try with another name.",
+        nameDir
+      );
     }
   }
 
@@ -109,11 +113,77 @@ export class DirectoryRunner {
     }
   }
 
+  public async navigateFolders(
+    currentDir: string,
+    initialDir?: string
+  ): Promise<string> {
+    clear();
+    if (!initialDir) {
+      initialDir = currentDir;
+    }
+
+    const choices = await this.listFiles(currentDir);
+    if (currentDir !== initialDir) {
+      choices.push({ name: "...Retroceder", value: "...Retroceder" });
+    }
+
+    const { selectedFile } = await this.selected([
+      {
+        type: "list",
+        name: "selectedFile",
+        message: "Selecciona un archivo o carpeta:",
+        choices,
+      },
+    ]);
+
+    const newPath = path.join(currentDir, selectedFile);
+
+    if (selectedFile === "...Retroceder") {
+      const parentPath = path.dirname(currentDir);
+      if (parentPath !== initialDir) {
+        return await this.navigateFolders(parentPath, initialDir);
+      } else {
+        return await this.navigateFolders(initialDir, initialDir); // Limitar a retroceder solo hasta el directorio inicial
+      }
+    }
+
+    if (fs.lstatSync(newPath).isDirectory()) {
+      return await this.navigateFolders(newPath, initialDir);
+    } else if (selectedFile.endsWith(".js") || selectedFile.endsWith(".jsx")) {
+      return newPath;
+    } else {
+      console.log("Archivo no válido, elija otro.");
+      return await this.navigateFolders(currentDir, initialDir);
+    }
+  }
+
+  public async listFiles(
+    currentDir: string
+  ): Promise<Array<{ name: string; value: string }>> {
+    const dir = await fs.promises.opendir(currentDir);
+    const choices: Array<{ name: string; value: string }> = [];
+
+    for await (const dirent of dir) {
+      const type = dirent.isDirectory() ? "[carpeta]" : "[archivo]";
+      choices.push({ name: `${dirent.name} ${type}`, value: dirent.name });
+    }
+
+    return choices;
+  }
+
+  public validateDirectoryAndCreateDirectory(
+    pathBae: string,
+    directory: string
+  ) {
+    const directoryPath = path.join(pathBae, directory); 
+
+    if (!fs.existsSync(directoryPath)) {
+      fs.mkdirSync(directoryPath, { recursive: true });
+    }
+  }
+
   private handleError(text: string, entry: string): void {
-    console.error(
-      `\n${ERROR_PREFIX} ${text} ${chalk.red("%s")}`,
-      entry
-    );
+    console.error(`\n${ERROR_PREFIX} ${text} ${chalk.red("%s")}`, entry);
     process.exit(1);
   }
 }
