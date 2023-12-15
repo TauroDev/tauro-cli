@@ -175,7 +175,7 @@ export class DirectoryRunner {
     pathBae: string,
     directory: string
   ) {
-    const directoryPath = path.join(pathBae, directory); 
+    const directoryPath = path.join(pathBae, directory);
 
     if (!fs.existsSync(directoryPath)) {
       fs.mkdirSync(directoryPath, { recursive: true });
@@ -185,5 +185,59 @@ export class DirectoryRunner {
   private handleError(text: string, entry: string): void {
     console.error(`\n${ERROR_PREFIX} ${text} ${chalk.red("%s")}`, entry);
     process.exit(1);
+  }
+
+  //Barrel Dir
+  private isJavaScriptFile(fileName: string) {
+    return (
+      fileName.endsWith(".js") ||
+      fileName.endsWith(".jsx") ||
+      fileName.endsWith(".ts") ||
+      fileName.endsWith(".tsx")
+    );
+  }
+
+  private getExportStatement(filePath: string, relativePath: string) {
+    const content = fs.readFileSync(filePath, "utf8");
+    const baseName = path.basename(filePath, path.extname(filePath));
+    const finalPath = relativePath.replace(".jsx", "").replace(".tsx", "").replace(".ts", "").replace(".js", "");
+    const finalBase = baseName.replace(".viewmodel", "ViewModel");
+
+    if (content.includes("export default")) {
+      return `export { default as ${finalBase} } from '${finalPath}';\n`;
+    } else {
+      return `export * from '${finalPath}';\n`;
+    }
+  }
+
+  private generateExportsForDirectory(directoryPath: string, rootPath: string) {
+    let exports = "";
+
+    const items = fs.readdirSync(directoryPath, { withFileTypes: true });
+    items.forEach((item) => {
+      const fullPath = path.join(directoryPath, item.name);
+      const relativePath = `.${fullPath
+        .slice(rootPath.length)
+        .replace(/\\/g, "/")}`;
+
+      if (item.isDirectory()) {
+        exports += this.generateExportsForDirectory(fullPath, rootPath); // Recursivamente busca en subdirectorios.
+      } else if (this.isJavaScriptFile(item.name)) {
+        exports += this.getExportStatement(fullPath, relativePath);
+      }
+    });
+
+    return exports;
+  }
+
+  public generateBarrel(directoryPath: string) {
+    const exports = this.generateExportsForDirectory(
+      directoryPath,
+      directoryPath
+    );
+    const indexPath = path.join(directoryPath, `index.${this.chargeItems(process.cwd()).includes("tsconfig") ? "ts" : "js"}`);
+
+    fs.writeFileSync(indexPath, exports, "utf8");
+    console.log(`Paginas Actualizadas.`);
   }
 }

@@ -5,6 +5,9 @@ import prettier from "prettier";
 import Path from "path";
 import inquirer from "inquirer";
 import {
+  GenericPage,
+  GenericPageStyle,
+  GenericPageViewModel,
   capitalizarString,
   convertToCamelCase,
   normalizeString,
@@ -32,8 +35,8 @@ export class ReactAction extends AbstractAction {
     {
       type: "list",
       name: "routeExist",
-      message: "¿Deseas crear la ruta en un archivo diferente a index?",
-      choices: ["Si", "No"],
+      message: "¿Deseas crear la ruta fuera del index?",
+      choices: ["No", "Si"],
       filter: (val: string) => {
         return val.toLowerCase();
       },
@@ -126,7 +129,9 @@ export class ReactAction extends AbstractAction {
           : `<h1>Nueva ruta ${capitalizarString(nameCamelCase, false)}</h1>`;
       const filePath = path.join(config.isValidPath, "index.jsx");
       await this.createRoute({
+        pathPage: path.join(process.cwd(), "src/pages"),
         name: nameCamelCase,
+        upper: capitalizarString(nameCamelCase, false),
         namePage: isPage,
         filePath,
         ...config,
@@ -134,30 +139,73 @@ export class ReactAction extends AbstractAction {
     }
   }
 
-  private async createPage(): Promise<boolean> {
-    return false;
+  private async createPage(config: any): Promise<void> {
+    // Construir el path de la carpeta typeRoute dentro de pathPage
+    const typeRoutePath = path.join(config.pathPage, config.typeRoute);
+    this.dir.validateDirectoryAndCreateDirectory(
+      config.pathPage,
+      config.typeRoute
+    );
+
+    // Construir el path de la carpeta upper dentro de typeRoutePath
+    const upperPath = path.join(typeRoutePath, config.upper);
+    this.dir.validateDirectoryAndCreateDirectory(typeRoutePath, config.upper);
+
+    // Definir los nombres de archivo basados en upper
+    const jsxFileName = `${config.upper}.jsx`;
+    const cssModuleName = `${config.upper}.style.module.css`;
+    const viewModelName = `${config.upper}.viewmodel.jsx`;
+
+    // Crear los archivos con contenido opcional
+    fs.writeFileSync(
+      path.join(upperPath, jsxFileName),
+      (await GenericPage(config.upper)) || "",
+      "utf8"
+    );
+    fs.writeFileSync(
+      path.join(upperPath, cssModuleName),
+      (await GenericPageStyle()) || "",
+      "utf8"
+    );
+    fs.writeFileSync(
+      path.join(upperPath, viewModelName),
+      (await GenericPageViewModel(config.upper)) || "",
+      "utf8"
+    );
   }
 
-  private async createRoute(config: any): Promise<boolean> {
+  private async createRoute(config: any): Promise<void> {
     if (config.routeQuantity == "single") {
       try {
         const routeAdd = Config.ConfigRoutes.front.react.single;
-        const replateData = routeAdd
+        const replaceData = routeAdd
           .replace("{nameRoute}", config.nameRoute)
           .replace("{component}", config.namePage);
-        await this.newRouteAdd(config.filePath, replateData);
+        if (config.pageContain == "rute") {
+          await this.newRouteAdd(config.filePath, replaceData, false);
+        } else {
+          await this.createPage(config);
+          this.dir.generateBarrel(config.pathPage);
+          await this.newRouteAdd(
+            config.filePath,
+            replaceData,
+            true,
+            config.upper
+          );
+        }
       } catch (error) {
-        return false;
+        this.handleError("Error al crear la ruta");
+        process.exit(1);
       }
     }
-    if(config.routeQuantity == "multi") {
+    if (config.routeQuantity == "multi") {
       try {
-        this.dir.validateDirectoryAndCreateDirectory(config.filePath, "Module")
+        this.dir.validateDirectoryAndCreateDirectory(config.filePath, "Module");
       } catch (error) {
-        return false
+        this.handleError("Error al crear multi rutas");
+        process.exit(1);
       }
     }
-    return false;
   }
 
   /**
@@ -165,18 +213,54 @@ export class ReactAction extends AbstractAction {
    * @param pathRoute {string} - Path del archivo que contiene las rutas
    * @param routeAdd {string} - Estructura de código que desea añadir al archivo <Route></Route>
    */
-  private async newRouteAdd(pathRoute: string, routeAdd: string) {
+  private async newRouteAdd(
+    pathRoute: string,
+    routeAdd: string,
+    isImport: boolean,
+    componentName?: string
+  ) {
     const contentFile = fs.readFileSync(pathRoute, "utf8");
-    const position = contentFile.lastIndexOf("</Routes>");
+
+    let newFileContent = contentFile;
+
+    if (isImport && componentName) {
+      const importString = `import { ${componentName} } from "@Pages";\n`;
+      const importRegex = /import { ([\s\S]*?) } from "@Pages";/;
+      if (contentFile.match(importRegex)) {
+        newFileContent = contentFile.replace(
+          importRegex,
+          (match, existingImports) => {
+            if (
+              !existingImports
+                .split(",")
+                .map((s: string) => s.trim())
+                .includes(componentName)
+            ) {
+              return `import { ${existingImports}, ${componentName} } from "@Pages";`;
+            }
+            return match;
+          }
+        );
+      } else {
+        newFileContent = importString + newFileContent;
+      }
+    }
+
+    const position = newFileContent.lastIndexOf("</Routes>");
     if (position === -1) {
       console.error("No se pudo encontrar la posición para insertar la ruta.");
       return;
     }
-    const newFileContent =
-      contentFile.slice(0, position) + routeAdd + contentFile.slice(position);
+
+    newFileContent =
+      newFileContent.slice(0, position) +
+      routeAdd +
+      newFileContent.slice(position);
+
     const formattedCode = await prettier.format(newFileContent, {
       parser: "babel",
     });
+
     fs.writeFile(pathRoute, formattedCode, "utf8", () => {
       console.log("Ruta generada exitosamente.");
     });

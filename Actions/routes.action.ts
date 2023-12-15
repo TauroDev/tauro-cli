@@ -9,7 +9,6 @@ export class RoutesAction extends AbstractAction {
     "back-end-app": BackAction,
   };
   public async handle(args: InputCommand): Promise<void> {
-    console.log(args)
     const GoFlow = this.HashMapApp[args.name];
     new GoFlow().handle(args)
   }
