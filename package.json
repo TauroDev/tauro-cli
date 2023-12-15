@@ -1,6 +1,6 @@
 {
   "name": "tauro-cli-dev",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "Cli de la empresa Tauro Dev para la optimización de la arquitectura de los proyectos ",
   "main": "index.js",
   "preferGlobal": true,
